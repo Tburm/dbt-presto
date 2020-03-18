@@ -30,7 +30,7 @@
   {{ run_hooks(pre_hooks, inside_transaction=False) }}
 
   -- `BEGIN` happens here:
-  {{ run_hooks(pre_hooks, inside_transaction=True) }}
+  {{ run_hooks(pre_hooks, inside_transaction=False) }}
 
   -- build model
   {% call statement('main') -%}
@@ -44,7 +44,7 @@
 
   {{ adapter.rename_relation(intermediate_relation, target_relation) }}
 
-  {{ run_hooks(post_hooks, inside_transaction=True) }}
+  {{ run_hooks(post_hooks, inside_transaction=False) }}
 
   -- `COMMIT` happens here
   {{ adapter.commit() }}
