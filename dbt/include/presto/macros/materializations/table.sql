@@ -1,6 +1,7 @@
 {% materialization table, adapter='presto' %}
   {%- set identifier = model['alias'] -%}
   {%- set tmp_identifier = model['name'] + '__dbt_tmp' -%}
+  {%- set tmp_identifier_2 = model['name'] + '__dbt_tmp2' -%}
   {%- set backup_identifier = model['name'] + '__dbt_backup' -%}
 
   {%- set old_relation = adapter.get_relation(database=database, schema=schema, identifier=identifier) -%}
@@ -9,6 +10,11 @@
                                                 database=database,
                                                 type='table') -%}
   {%- set intermediate_relation = api.Relation.create(identifier=tmp_identifier,
+                                                      schema=schema,
+                                                      database=database,
+                                                      type='table') -%}
+
+  {%- set intermediate_relation_2 = api.Relation.create(identifier=tmp_identifier_2,
                                                       schema=schema,
                                                       database=database,
                                                       type='table') -%}
