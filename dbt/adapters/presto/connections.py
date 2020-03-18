@@ -48,7 +48,7 @@ class ConnectionWrapper(object):
         self.handle = handle
         self._cursor = None
         self._fetch_result = None
-        self.clear_transaction()
+        self.handle.clear_transaction()
 
     def cursor(self):
         self._cursor = self.handle.cursor()
@@ -83,6 +83,7 @@ class ConnectionWrapper(object):
         return None
 
     def execute(self, sql, bindings=None):
+        self.handle.clear_transaction()
 
         if bindings is not None:
             # presto doesn't actually pass bindings along so we have to do the
