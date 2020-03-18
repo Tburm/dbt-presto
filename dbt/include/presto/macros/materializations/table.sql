@@ -37,6 +37,8 @@
     {{ create_table_as(False, intermediate_relation, sql) }}
   {%- endcall %}
 
+  {{ adapter.clear_transaction()}}
+
   -- cleanup
   {% if old_relation is not none %}
       {{ adapter.rename_relation(old_relation, backup_relation) }}
