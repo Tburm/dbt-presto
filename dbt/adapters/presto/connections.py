@@ -131,10 +131,10 @@ class PrestoConnectionManager(SQLConnectionManager):
             logger.debug(exc)
             raise dbt.exceptions.RuntimeException(str(exc))
 
-    def add_begin_query(self):
-        connection = self.get_thread_connection()
-        with self.exception_handler('handle.start_transaction()'):
-            connection.handle.start_transaction()
+    def add_begin_query(self, name):
+        connection = self.get(name)
+        with self.exception_handler('handle.start_transaction()', name):
+            pass
 
     def add_commit_query(self):
         connection = self.get_thread_connection()
