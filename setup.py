@@ -33,7 +33,7 @@ setup(
         ]
     },
     install_requires=[
-        'dbt-core=={}'.format(package_version),
+        'dbt-core',
         'presto-python-client',
     ]
 )
