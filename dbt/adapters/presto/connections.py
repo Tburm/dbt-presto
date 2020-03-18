@@ -48,6 +48,7 @@ class ConnectionWrapper(object):
         self.handle = handle
         self._cursor = None
         self._fetch_result = None
+        self.clear_transaction()
 
     def cursor(self):
         self._cursor = self.handle.cursor()
