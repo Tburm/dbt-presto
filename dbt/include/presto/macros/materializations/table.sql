@@ -30,23 +30,25 @@
   {{ run_hooks(pre_hooks, inside_transaction=False) }}
 
   -- `BEGIN` happens here:
-  {{ run_hooks(pre_hooks, inside_transaction=False) }}
+  {{ run_hooks(pre_hooks, inside_transaction=True) }}
 
   -- build model
   {% call statement('main') -%}
     {{ create_table_as(False, intermediate_relation, sql) }}
   {%- endcall %}
 
-  {{ adapter.clear_transaction()}}
+  {{ run_hooks(post_hooks, inside_transaction=True) }}
 
   -- cleanup
+  {{ run_hooks(pre_hooks, inside_transaction=True) }}
+
   {% if old_relation is not none %}
       {{ adapter.rename_relation(old_relation, backup_relation) }}
   {% endif %}
 
   {{ adapter.rename_relation(intermediate_relation, target_relation) }}
 
-  {{ run_hooks(post_hooks, inside_transaction=False) }}
+  {{ run_hooks(post_hooks, inside_transaction=True) }}
 
   -- `COMMIT` happens here
   {{ adapter.commit() }}
